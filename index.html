@@ -1,112 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Tools Hub</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text to Image Generator</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #111;
-      color: #fff;
-      padding: 1rem;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    h1 {
-      font-size: 2.5rem;
-      color: #00ffc8;
-      text-shadow: 0 0 5px #00ffc8;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-    }
-    .card {
       background: #1a1a1a;
-      border: 1px solid #00ffc891;
-      border-radius: 1rem;
-      padding: 1.5rem;
-      box-shadow: 0 0 10px #00ffc855;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 20px #00ffc8cc;
-    }
-    .btn {
-      margin-top: 1rem;
-      padding: 0.6rem 1.2rem;
-      border: 1px solid #00ffc8;
-      background: transparent;
-      color: #00ffc8;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .btn:hover {
-      background: #00ffc8;
-      color: #111;
-    }
-    footer {
-      margin-top: 3rem;
+      color: #f0f0f0;
       text-align: center;
-      font-size: 0.9rem;
-      color: #777;
+      padding: 2rem;
+    }
+    input, button {
+      padding: 1rem;
+      border-radius: 8px;
+      border: 2px solid #00f5ff;
+      margin: 1rem 0;
+      font-size: 1rem;
+      outline: none;
+    }
+    button {
+      background: transparent;
+      color: #00f5ff;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: #00f5ff;
+      color: black;
+    }
+    img {
+      margin-top: 2rem;
+      max-width: 100%;
+      border: 2px solid #00f5ff;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <h1>⚡ AI Tools Hub</h1>
-    <p>Explore trending AI tools for content, code, images, and more.</p>
-  </header>
-
-  <main class="grid">
-    <div class="card">
-      <h2>Text Generator</h2>
-      <p>Generate SEO-friendly blog posts in seconds.</p>
-      <button class="btn">Try Tool</button>
-    </div>
-    <div class="card">
-      <h2>Image Generator</h2>
-      <p>Create stunning AI-generated images with prompts.</p>
-      <button class="btn">Try Tool</button>
-    </div>
-    <div class="card">
-      <h2>Code Debugger</h2>
-      <p>Fix your code instantly using AI magic.</p>
-      <button class="btn">Try Tool</button>
-    </div>
-    <div class="card">
-      <h2>Voice to Text</h2>
-      <p>Convert your voice into text using advanced speech AI.</p>
-      <button class="btn">Try Tool</button>
-    </div>
-  </main>
-
-  <footer>
-    © 2025 AI Tools Hub | Made with 💡 by Abdullah
-  </footer>
+  <h1>🧠 Text to Image AI Tool</h1>
+  <input type="text" id="prompt" placeholder="Enter your idea...">
+  <br>
+  <button onclick="generateImage()">Generate Image</button>
+  <div id="image-container"></div>
 
   <script>
-    // Safe audience behavior simulation
-    window.addEventListener("load", () => {
-      setInterval(() => {
-        window.scrollBy({ top: 100, behavior: "smooth" });
-      }, 5000);
+    const API_TOKEN = "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";
 
-      setTimeout(() => {
-        const btns = document.querySelectorAll(".btn");
-        if (btns.length) btns[0].click();
-      }, 10000);
-    });
+    async function generateImage() {
+      const prompt = document.getElementById("prompt").value;
+      const res = await fetch("https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${API_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ inputs: prompt })
+      });
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      document.getElementById("image-container").innerHTML = `<img src="${url}" alt="Generated Image">`;
+    }
   </script>
-
 </body>
 </html>

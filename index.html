@@ -2,117 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AIHubbyDragon - Text to Image</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
-    }
-    h1 {
-      margin-bottom: 1rem;
-      font-size: 2.5rem;
-      text-align: center;
-    }
-    .card {
-      background: #1e293b;
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-    }
-    input {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 1rem 0;
-      border: 2px solid #38bdf8;
-      border-radius: 10px;
-      font-size: 1rem;
-      outline: none;
-    }
-    button {
-      background-color: transparent;
-      color: #38bdf8;
-      border: 2px solid #38bdf8;
-      padding: 0.7rem 1.5rem;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    button:hover {
-      background-color: #38bdf8;
-      color: black;
-      transform: scale(1.05);
-    }
-    .image-box {
-      margin-top: 1.5rem;
-    }
-    img {
-      max-width: 100%;
-      border-radius: 12px;
-      margin-top: 1rem;
-    }
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.8rem;
-      }
-      .card {
-        padding: 1.2rem;
-      }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Text to Image Generator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <h1>🎨 AI Text to Image Generator</h1>
-  <div class="card">
-    <input type="text" id="promptInput" placeholder="Describe any image you want..." />
-    <button onclick="generateImage()">Generate Image</button>
-    <div class="image-box" id="resultImage"></div>
+  <div class="container">
+    <h1>Text to Image Generator</h1>
+    <textarea id="prompt" placeholder="Type your prompt here..."></textarea>
+    <button id="generateBtn">Generate Image</button>
+    <div id="loader">Generating...</div>
+    <div id="result">
+      <img id="outputImage" src="" alt="Generated image will appear here"/>
+    </div>
   </div>
-
-  <script>
-    async function generateImage() {
-      const prompt = document.getElementById('promptInput').value.trim();
-      const resultBox = document.getElementById('resultImage');
-
-      if (!prompt) {
-        resultBox.innerHTML = "<p>Please enter a description!</p>";
-        return;
-      }
-
-      resultBox.innerHTML = "<p>Generating image, please wait...</p>";
-
-      const response = await fetch("https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2", {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer "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";
-,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ inputs: prompt })
-      });
-
-      if (!response.ok) {
-        resultBox.innerHTML = "<p>Failed to generate image. Try again later.</p>";
-        return;
-      }
-
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      resultBox.innerHTML = `<img src="${url}" alt="Generated image">`;
-    }
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
+

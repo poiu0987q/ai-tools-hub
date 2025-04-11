@@ -11,7 +11,7 @@ if (empty($prompt)) {
 }
 
 $API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4";
-$HF_TOKEN = "Bearer YOUR_HUGGING_FACE_TOKEN_HERE";
+$HF_TOKEN = "Bearer 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 ";
 
 $ch = curl_init();
 
